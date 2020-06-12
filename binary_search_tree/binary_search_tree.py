@@ -9,6 +9,9 @@ This part of the project comprises two days:
 2. Implement the `in_order_print`, `bft_print`, and `dft_print` methods
    on the BSTNode class.
 """
+
+from collections import deque
+
 class BSTNode:
     def __init__(self, value):
         self.value = value
@@ -131,25 +134,97 @@ class BSTNode:
     # Print all the values in order from low to high
     # Hint:  Use a recursive, depth first traversal
     def in_order_print(self, node):
-        pass
+
+        # print(node.value)
+
+        if self.left is not None:
+            self.left.in_order_print(self.left)
+        # when print() was in else, it wasn't print the current node.value when
+        # we were on the way back up the recursion calls, obviously because it
+        # would only call print() "if there's no left" which in our case there was
+        # else:
+        #     print(node.value)
+
+        # this way, if there's no self.left this will print current node.value
+        # if there is a self. left, it will traverse down the tree, then on the 
+        # way back up this whole function runs again, but because that recursive call
+        # in the above if statement has already traversed self.left and returned something, 
+        # so it will just print current node.value
+        print(node.value)
+
+        if self.right is not None:
+            self.right.in_order_print(self.right)
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
     def bft_print(self, node):
-        pass
+        queue = deque()
+
+        # add the root node to queue
+        queue.append(node)
+
+        # loop so long as the queue has elements
+        while len(queue) > 0:
+            # pop the first element (FIFO) in the queue off the queue and assign it
+            # to 'current' variable
+            current = queue.popleft()
+            # if current has a right, add it to the queue
+            if current.right:
+                queue.append(current.right)
+            # if current has a left, add it to the queue
+            if current.left:
+                queue.append(current.left)
+
+            # print current.value
+            print(current.value)
+            # now loop to the top
+
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self, node):
-        pass
+        stack = []
+
+        # add the root node to stack
+        stack.append(node)
+
+        # loop as long as stack has elements
+        while len(stack) > 0:
+            # pop off the last added element (LIFO) and assign to 'current'
+            current = stack.pop()
+            # if current has either a left or right, then add them to stack
+            if current.left:
+                stack.append(current.left)
+            if current.right:
+                stack.append(current.right)
+
+            # print current.value
+            print(current.value)
+            # now loop back to top
 
     # Stretch Goals -------------------------
     # Note: Research may be required
 
     # Print Pre-order recursive DFT
+    # i.e. root-left-right: 1, 8, 5, 3, 2, 4, 7, 6
     def pre_order_dft(self, node):
-        pass
+        
+        print(node.value)
+        if self.left:
+            self.left.pre_order_dft(self.left)
+        if self.right:
+            self.right.pre_order_dft(self.right)
 
     # Print Post-order recursive DFT
+    # i.e. left-root-right: 2, 4, 3, 6, 7, 5, 8, 1
     def post_order_dft(self, node):
-        pass
+        if self.left:
+            self.left.post_order_dft(self.left)
+
+        if self.right:
+            self.right.post_order_dft(self.right)
+
+        print(node.value)
+
+
+
