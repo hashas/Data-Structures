@@ -4,6 +4,8 @@ import sys
 import io
 from binary_search_tree import BSTNode
 
+# change name of clasee to BSTNode to reflect that in other file
+
 class BinarySearchTreeTests(unittest.TestCase):
     def setUp(self):
         self.bst = BSTNode(5)
